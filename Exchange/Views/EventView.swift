@@ -67,7 +67,8 @@ class EventView: UIView {
 	
 	// gradient background view
 	lazy var backgroundView: UIView = {
-		let backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: 667, height: 375))	// add auto-layout later
+		let backgroundView = UIView(frame: UIScreen.main.bounds)
+		backgroundView.backgroundColor = UIColor(red: 31.0 / 255.0, green: 27.0 / 255.0, blue: 36.0 / 255.0, alpha: 1.0)
 		return backgroundView
 	}()
 	
@@ -91,7 +92,7 @@ class EventView: UIView {
 		gradientLayer.colors = [topColor, bottomColor]
 		gradientLayer.locations = [0.5, 1.0]
 		gradientLayer.shouldRasterize = true
-		backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+		backgroundView.layer.addSublayer(gradientLayer)
 	}
 	
 	// adding views to subview
