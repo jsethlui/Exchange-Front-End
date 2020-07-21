@@ -9,26 +9,49 @@
 import UIKit
 
 class EventView: UIView {
+	// button for event
+	let image = UIImage(named: "alchemy_tour.jpg")
+	
+	// profile button to edit user profile
+	lazy var profileButton: UIButton = {
+		let profileButtonImage = UIImage(named: "profile")
+		let profileButton = UIButton(type: .contactAdd)
+		profileButton.setImage(profileButtonImage!, for: .normal)	// change to not using force wrapping
+		profileButton.frame = CGRect(x: 5, y: 20, width: 60, height: 60)
+		return profileButton
+	}()
+	
+	// message center button to message other users
+	lazy var messageCenterButton: UIButton = {
+		let messageCenterButtonImage = UIImage(named: "messageCenter")
+		let messageCenterButton = UIButton(frame: CGRect(x: 100, y: 100, width: 60, height: 60))
+		messageCenterButton.setImage(messageCenterButtonImage!, for: .normal)	// change to not using force wrapping
+		messageCenterButton.frame = CGRect(x: 200, y: 20, width: 50, height: 50)
+		return messageCenterButton
+	}()
+	
+	lazy var openButton: UIButton = {
+		let openButton = UIButton(type: .contactAdd)
+		openButton.frame = CGRect(x: 0, y: 9, width: image!.size.width / 3.5, height: image!.size.height / 3.5)
+		openButton.setTitle("Explore", for: .normal)
+		openButton.setTitleColor(UIColor.white, for: .normal)
+		openButton.translatesAutoresizingMaskIntoConstraints = false
+		
+		openButton.isEnabled = true
+		openButton.isUserInteractionEnabled = true
+		openButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+		return openButton
+	}()
+	
 	// haptic feedback and prints to console when button is pressed
-	@objc func buttonPressed() -> Void {
+	@objc func buttonPressed(sender: UIButton!) -> Void {
 		let generator = UINotificationFeedbackGenerator()
 		generator.notificationOccurred(.success)
 		print("Explored")
 	}
 
-	// button for event
-	lazy var addButton: UIButton = {
-		let addButton = UIButton(type: .contactAdd)
-		addButton.frame = CGRect(x: 265, y: 5, width: 30, height: 30)
-		addButton.setTitle("Explore", for: .normal)
-		addButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-		addButton.translatesAutoresizingMaskIntoConstraints = false
-		return addButton
-	}()
-
 	// view for showing image of event
 	lazy var eventView: UIImageView = {
-		let image = UIImage(named: "alchemy_tour.jpg")
 		let eventView = UIImageView(frame: CGRect(x: 0, y: 0, width: image!.size.width / 3.5, height: image!.size.height / 3.5))
 		eventView.image = image
 		eventView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,28 +80,28 @@ class EventView: UIView {
 		gradient.frame = headerView.bounds
 		gradient.colors = [topColor, bottomColor]
 		headerView.layer.insertSublayer(gradient, at: 0)
-		
 		headerView.addSubview(eventTitle)
-		headerView.addSubview(addButton)
-		
 		headerView.translatesAutoresizingMaskIntoConstraints = false
 		return headerView
 	}()
 	
-	// creating gradient background
-	func createGradientBackground() -> Void {
-		// gradient implementation
-		var gradientLayer = CAGradientLayer()
-		let topColor = UIColor(red: 31.0 / 255.0, green: 27.0 / 255.0, blue: 36.0 / 255.0, alpha: 1.0).cgColor
-		let bottomColor = UIColor(red: 18.0 / 255.0, green: 18.0 / 255.0, blue: 18.0 / 255.0, alpha: 1.0).cgColor
-		gradientLayer.colors = [topColor, bottomColor]
-		gradientLayer.frame = bounds
-		//gradientLayer.shouldRasterize = true
-		layer.addSublayer(gradientLayer)
-		print("end of gradient background")
-	}
+	// gradient background view
+	lazy var backgroundView: UIView = {
+		let backgroundView = UIView(frame: UIScreen.main.bounds)
+		backgroundView.backgroundColor = UIColor(red: 31.0 / 255.0, green: 27.0 / 255.0, blue: 36.0 / 255.0, alpha: 1.0)	// to fill in screen's edges
+		return backgroundView
+	}()
 	
-	// ----- end -----
+	// setting custom gradient background
+	func setGradientBackground(_ topColor: CGColor, _ bottomColor: CGColor) -> Void {
+		let gradientLayer = CAGradientLayer()
+		gradientLayer.frame.size = self.backgroundView.frame.size
+		gradientLayer.frame = backgroundView.bounds
+		gradientLayer.colors = [topColor, bottomColor]
+		gradientLayer.locations = [0.5, 1.0]
+		gradientLayer.shouldRasterize = true
+		backgroundView.layer.addSublayer(gradientLayer)
+	}
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -90,31 +113,24 @@ class EventView: UIView {
 		setCustomView()
 	}
 	
-	// adding views to subview
-	func setCustomView() -> Void {
-//		NSLayoutConstraint.activate([
-//			headerView.topAnchor.constraint(equalTo: headerView.topAnchor),
-//			headerView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
-//			headerView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-//			headerView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-//
-//			addButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-//			addButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10),
-//
-//			headerView.topAnchor.constraint(equalTo: topAnchor),
-//			headerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-//			headerView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//			headerView.heightAnchor.constraint(equalToConstant: 40),
-//
-//			eventView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-//			eventView.bottomAnchor.constraint(equalTo: bottomAnchor),
-//			eventView.leadingAnchor.constraint(equalTo: leadingAnchor),
-//			eventView.trailingAnchor.constraint(equalTo: trailingAnchor)
-//		])
+	// setting custom view
+	private func setCustomView() -> Void {
+		addSubview(backgroundView)
+		let topColor = UIColor(red: 40.0 / 255.0, green: 30.0 / 255.0, blue: 40.0 / 255.0, alpha: 1.0).cgColor
+		let bottomColor = UIColor(red: 31.0 / 255.0, green: 27.0 / 255.0, blue: 36.0 / 255.0, alpha: 1.0).cgColor
+		setGradientBackground(topColor, bottomColor)
 		
-		//addSubview(eventView)
+		addSubview(profileButton)
+		addSubview(messageCenterButton)
+		
+		addSubview(eventView)
 		//addSubview(headerView)
-		createGradientBackground()
-		print("end of adding custom view")
+		addSubview(openButton)
+		setLayout()
+	}
+	
+	private func setLayout() -> Void {
+		eventView.center = backgroundView.center
+
 	}
 }
