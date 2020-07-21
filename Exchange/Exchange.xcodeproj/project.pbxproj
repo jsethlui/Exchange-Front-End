@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8825F4A524C76E1B0044FCF8 /* SelectEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825F4A424C76E1B0044FCF8 /* SelectEventView.swift */; };
+		8825F4A724C7752C0044FCF8 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8825F4A624C7752C0044FCF8 /* EventCell.swift */; };
 		886CFD2D24C4F63A00986B6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CFD2C24C4F63A00986B6E /* AppDelegate.swift */; };
 		886CFD2F24C4F63A00986B6E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CFD2E24C4F63A00986B6E /* SceneDelegate.swift */; };
 		886CFD3124C4F63A00986B6E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CFD3024C4F63A00986B6E /* ViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8825F4A424C76E1B0044FCF8 /* SelectEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEventView.swift; sourceTree = "<group>"; };
+		8825F4A624C7752C0044FCF8 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		886CFD2924C4F63A00986B6E /* Exchange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Exchange.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		886CFD2C24C4F63A00986B6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		886CFD2E24C4F63A00986B6E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				886CFD4624C5195E00986B6E /* EventView.swift */,
+				8825F4A424C76E1B0044FCF8 /* SelectEventView.swift */,
+				8825F4A624C7752C0044FCF8 /* EventCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -164,8 +170,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				886CFD4124C4F89E00986B6E /* CustomButton.swift in Sources */,
+				8825F4A524C76E1B0044FCF8 /* SelectEventView.swift in Sources */,
 				886CFD4424C5024800986B6E /* Colors.swift in Sources */,
 				886CFD3124C4F63A00986B6E /* ViewController.swift in Sources */,
+				8825F4A724C7752C0044FCF8 /* EventCell.swift in Sources */,
 				886CFD4724C5195E00986B6E /* EventView.swift in Sources */,
 				886CFD2D24C4F63A00986B6E /* AppDelegate.swift in Sources */,
 				886CFD2F24C4F63A00986B6E /* SceneDelegate.swift in Sources */,
