@@ -9,18 +9,34 @@
 import UIKit
 
 extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+	// height of each event cell
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: collectionView.frame.width / 2.5, height: collectionView.frame.width / 2)
+		return CGSize(width: collectionView.frame.width * 0.85, height: collectionView.frame.width)
 	}
 	
+	// total number of event cells
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return 6
 	}
-	
+		
+	// color of background of event cell
 	func collectionView(_ collectioNView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
 		cell.backgroundColor = UIColor(red: 238.0 / 255.0, green: 120.0 / 255.0, blue: 47.0 / 255.0, alpha: 1.0)
 		return cell
+	}
+	
+	// snapping cells after done scrolling (TO DO: FIX)
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+		let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+		let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+		
+		var offset = targetContentOffset.pointee
+		let index = (offset.x + scrollView.contentInset.left) / (cellWidthIncludingSpacing)
+		let roundedIndex = round(index)
+		
+		offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
+		targetContentOffset.pointee = offset
 	}
 }
 
@@ -34,7 +50,6 @@ class ViewController: UIViewController {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.register(EventCell.self, forCellWithReuseIdentifier: "cell")
-		print("ran")
 		return collectionView
 	}()
 
@@ -47,10 +62,11 @@ class ViewController: UIViewController {
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
 		collectionView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.85).isActive = true
+		collectionView.showsHorizontalScrollIndicator = false
+		collectionView.showsVerticalScrollIndicator = false
 	}
 
 	override func viewDidLoad() {
-		// Do any additional setup after loading the view.
 		super.viewDidLoad()
 		
 //		let view = EventView()
@@ -58,7 +74,7 @@ class ViewController: UIViewController {
 
 		self.view.addSubview(collectionView)
 		setUpCollectionView()
-		collectionView.heightAnchor.constraint(equalToConstant: view.frame.width / 2).isActive = true
+		collectionView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.85).isActive = true
 	}
 }
 
