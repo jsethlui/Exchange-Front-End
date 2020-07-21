@@ -47,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8825F4A824C77D230044FCF8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8825F4A624C7752C0044FCF8 /* EventCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		886CFD2024C4F63A00986B6E = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +81,7 @@
 				886CFD3524C4F63D00986B6E /* Assets.xcassets */,
 				886CFD3724C4F63D00986B6E /* LaunchScreen.storyboard */,
 				886CFD3A24C4F63D00986B6E /* Info.plist */,
+				8825F4A824C77D230044FCF8 /* Cells */,
 				886CFD4524C5194C00986B6E /* Views */,
 				886CFD4224C4F8A300986B6E /* Custom Controls */,
 			);
@@ -93,7 +102,6 @@
 			children = (
 				886CFD4624C5195E00986B6E /* EventView.swift */,
 				8825F4A424C76E1B0044FCF8 /* SelectEventView.swift */,
-				8825F4A624C7752C0044FCF8 /* EventCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

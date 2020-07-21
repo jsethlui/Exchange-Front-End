@@ -37,6 +37,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 		
 		offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
 		targetContentOffset.pointee = offset
+		let generator = UIImpactFeedbackGenerator(style: .light)
+		generator.impactOccurred()
 	}
 }
 
