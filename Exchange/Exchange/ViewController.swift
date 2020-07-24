@@ -59,13 +59,16 @@ class ViewController: UIViewController {
 	fileprivate lazy var eventNameLabel: UILabel = {
 		let eventNameLabel = UILabel()
 		eventNameLabel.text = "Illenium: Ascend Tour"
+		eventNameLabel.font = UIFont(name: "SF Pro Text", size: 44.0)
+		eventNameLabel.sizeToFit()
 		return eventNameLabel
 	}()
 	
 	// name for event's location
 	fileprivate lazy var locationNameLabel: UILabel = {
 		let locationNameLabel = UILabel()
-		locationNameLabel.text = "Santa Cruz"
+		locationNameLabel.text = "Los Angeles, California"
+		eventNameLabel.sizeToFit()
 		return locationNameLabel
 	}()
 	
@@ -73,6 +76,7 @@ class ViewController: UIViewController {
 	fileprivate lazy var eventDistanceLabel: UILabel = {
 		let eventDistanceLabel = UILabel()
 		eventDistanceLabel.text = "-1"
+		eventNameLabel.sizeToFit()
 		return eventDistanceLabel
 	}()
 	
@@ -109,15 +113,15 @@ class ViewController: UIViewController {
 	}
 	
 	fileprivate func setUpEventData() {
-		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+//		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+//		eventNameLabel.center = view.center
+		eventNameLabel.frame.origin = CGPoint(x : 30, y: 40)
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
 		self.view.addSubview(eventNameLabel)
-//		self.view.addSubview(locationNameLabel)
-//		self.view.addSubview(eventDistanceLabel)
 		setUpEventData()
 
 		self.view.addSubview(collectionView)
@@ -125,3 +129,6 @@ class ViewController: UIViewController {
 	}
 }
 
+// To Do:
+// add city and state as separate data
+// add constraints to labels
