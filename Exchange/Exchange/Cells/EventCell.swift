@@ -9,7 +9,7 @@
 import UIKit
 
 class EventCell: UICollectionViewCell {
-	fileprivate let bg: UIImageView = {
+	fileprivate let cell: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.contentMode = .scaleAspectFill
@@ -19,14 +19,17 @@ class EventCell: UICollectionViewCell {
 		return imageView
 	}()
 	
+	func setUpCell() -> Void {
+		cell.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+		cell.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+		cell.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+		cell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+	}
+	
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
-		contentView.addSubview(bg)
-		
-		bg.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-		bg.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-		bg.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-		bg.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+		contentView.addSubview(cell)
+		setUpCell()
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

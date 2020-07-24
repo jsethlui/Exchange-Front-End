@@ -20,7 +20,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 	}
 		
 	// color of background of event cell
-	func collectionView(_ collectioNView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
 		cell.backgroundColor = UIColor(red: 238.0 / 255.0, green: 120.0 / 255.0, blue: 47.0 / 255.0, alpha: 1.0)
 		return cell
@@ -54,29 +54,74 @@ class ViewController: UIViewController {
 		collectionView.register(EventCell.self, forCellWithReuseIdentifier: "cell")
 		return collectionView
 	}()
+	
+	// name for event
+	fileprivate lazy var eventNameLabel: UILabel = {
+		let eventNameLabel = UILabel()
+		eventNameLabel.text = "Illenium: Ascend Tour"
+		return eventNameLabel
+	}()
+	
+	// name for event's location
+	fileprivate lazy var locationNameLabel: UILabel = {
+		let locationNameLabel = UILabel()
+		locationNameLabel.text = "Santa Cruz"
+		return locationNameLabel
+	}()
+	
+	// distance from event location and user
+	fileprivate lazy var eventDistanceLabel: UILabel = {
+		let eventDistanceLabel = UILabel()
+		eventDistanceLabel.text = "-1"
+		return eventDistanceLabel
+	}()
+	
+	// sets data for object
+	fileprivate func setObject(object: String, str: String) {
+		switch (object) {
+			case "eventName":	// set event title
+				eventNameLabel.text = str
+				break;
+			case "locationName":
+				locationNameLabel.text = str
+				break
+			case "eventDistance":
+				eventDistanceLabel.text = str
+				break
+			default:	//do nothing
+				print("Error: invalid object")
+				break
+		}
+	}
 
 	// centers collection view and adds color
-	func setUpCollectionView() -> Void {
+	fileprivate func setUpCollectionView() {
 		collectionView.backgroundColor = UIColor(red: 239.0 / 255.0, green: 240.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
 		collectionView.delegate = self
 		collectionView.dataSource = self
-		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 55).isActive = true
+		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
 		collectionView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.85).isActive = true
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.showsVerticalScrollIndicator = false
+		collectionView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.85).isActive = true
+	}
+	
+	fileprivate func setUpEventData() {
+		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-//		let view = EventView()
-//		self.view.addSubview(view)
+
+		self.view.addSubview(eventNameLabel)
+//		self.view.addSubview(locationNameLabel)
+//		self.view.addSubview(eventDistanceLabel)
+		setUpEventData()
 
 		self.view.addSubview(collectionView)
 		setUpCollectionView()
-		collectionView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.85).isActive = true
 	}
 }
 
