@@ -52,6 +52,7 @@ class ViewController: UIViewController {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.register(EventCell.self, forCellWithReuseIdentifier: "cell")
+		self.view.addSubview(collectionView)
 		return collectionView
 	}()
 	
@@ -59,24 +60,29 @@ class ViewController: UIViewController {
 	fileprivate lazy var eventNameLabel: UILabel = {
 		let eventNameLabel = UILabel()
 		eventNameLabel.text = "Illenium: Ascend Tour"
-		eventNameLabel.font = UIFont(name: "SF Pro Text", size: 44.0)
+		eventNameLabel.font = UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.regular)	// setting font to SF typeface
 		eventNameLabel.sizeToFit()
+		self.view.addSubview(eventNameLabel)
 		return eventNameLabel
 	}()
 	
 	// name for event's location
-	fileprivate lazy var locationNameLabel: UILabel = {
-		let locationNameLabel = UILabel()
-		locationNameLabel.text = "Los Angeles, California"
-		eventNameLabel.sizeToFit()
-		return locationNameLabel
+	fileprivate lazy var eventLocationLabel: UILabel = {
+		let eventLocationLabel = UILabel()
+		eventLocationLabel.text = "Los Angeles, California"
+		eventLocationLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.light)	// setting font to SF typeface
+		eventLocationLabel.sizeToFit()
+		self.view.addSubview(eventLocationLabel)
+		return eventLocationLabel
 	}()
 	
 	// distance from event location and user
 	fileprivate lazy var eventDistanceLabel: UILabel = {
 		let eventDistanceLabel = UILabel()
-		eventDistanceLabel.text = "-1"
-		eventNameLabel.sizeToFit()
+		eventDistanceLabel.text = "-1 mil"
+		eventDistanceLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.light)	// setting font to SF typeface
+		eventDistanceLabel.sizeToFit()
+		self.view.addSubview(eventDistanceLabel)
 		return eventDistanceLabel
 	}()
 	
@@ -87,7 +93,7 @@ class ViewController: UIViewController {
 				eventNameLabel.text = str
 				break;
 			case "locationName":
-				locationNameLabel.text = str
+				eventLocationLabel.text = str
 				break
 			case "eventDistance":
 				eventDistanceLabel.text = str
@@ -115,20 +121,18 @@ class ViewController: UIViewController {
 	fileprivate func setUpEventData() {
 //		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
 //		eventNameLabel.center = view.center
-		eventNameLabel.frame.origin = CGPoint(x : 30, y: 40)
+		eventNameLabel.frame.origin = CGPoint(x: 30, y: 40)
+		eventLocationLabel.frame.origin = CGPoint(x: 30, y: 75)
+		eventDistanceLabel.frame.origin = CGPoint(x: 30, y: 100)
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		self.view.addSubview(eventNameLabel)
 		setUpEventData()
-
-		self.view.addSubview(collectionView)
 		setUpCollectionView()
 	}
 }
 
 // To Do:
-// add city and state as separate data
 // add constraints to labels
