@@ -70,7 +70,7 @@ class ViewController: UIViewController {
 	fileprivate lazy var eventLocationLabel: UILabel = {
 		let eventLocationLabel = UILabel()
 		eventLocationLabel.text = "Los Angeles, California"
-		eventLocationLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.light)	// setting font to SF typeface
+		eventLocationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)	// setting font to SF typeface
 		eventLocationLabel.sizeToFit()
 		self.view.addSubview(eventLocationLabel)
 		return eventLocationLabel
@@ -80,7 +80,7 @@ class ViewController: UIViewController {
 	fileprivate lazy var eventDistanceLabel: UILabel = {
 		let eventDistanceLabel = UILabel()
 		eventDistanceLabel.text = "-1 mil"
-		eventDistanceLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.light)	// setting font to SF typeface
+		eventDistanceLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)	// setting font to SF typeface
 		eventDistanceLabel.sizeToFit()
 		self.view.addSubview(eventDistanceLabel)
 		return eventDistanceLabel
@@ -119,11 +119,17 @@ class ViewController: UIViewController {
 	}
 	
 	fileprivate func setUpEventData() {
-//		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
-//		eventNameLabel.center = view.center
-		eventNameLabel.frame.origin = CGPoint(x: 30, y: 40)
-		eventLocationLabel.frame.origin = CGPoint(x: 30, y: 75)
-		eventDistanceLabel.frame.origin = CGPoint(x: 30, y: 100)
+		eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
+		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+		eventNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+
+		eventLocationLabel.translatesAutoresizingMaskIntoConstraints = false
+		eventLocationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+		eventLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+
+		eventDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
+		eventDistanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 125).isActive = true
+		eventDistanceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
 	}
 
 	override func viewDidLoad() {
@@ -134,5 +140,3 @@ class ViewController: UIViewController {
 	}
 }
 
-// To Do:
-// add constraints to labels
