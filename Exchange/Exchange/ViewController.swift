@@ -11,6 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 	static var pageCount = 0
 
+/* -----start of buttons, collection views, etc----- */
+
 	// creates collection view
 	fileprivate lazy var collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
@@ -86,11 +88,32 @@ class ViewController: UIViewController {
 	// profile button
 	fileprivate lazy var profileButton: UIButton = {
 		let profileButton = UIButton()
-//		let profileButtonImageResized = resizeImage(image: UIImage(named: "profile")!, newWidth: 0.8)
 		profileButton.setImage(UIImage(named: "resized_profile"), for: .normal)
+		profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
 		self.view.addSubview(profileButton)
 		return profileButton
 	}()
+	
+	// action for when profile button is pressed
+	@objc func profileButtonPressed(sender: UIButton!) {
+		print("profile button pressed")
+	}
+	
+	// message center button
+	fileprivate lazy var messageCenterButton: UIButton = {
+		let messageCenterButton = UIButton()
+		messageCenterButton.setImage(UIImage(named: "resized_message_center"), for: .normal)
+		messageCenterButton.addTarget(self, action: #selector(messageCenterButtonPressed), for: .touchUpInside)
+		self.view.addSubview(messageCenterButton)
+		return messageCenterButton
+	}()
+	
+	@objc func messageCenterButtonPressed(sender: UIButton!) {
+		print("message center button pressed")
+	}
+	
+/* -----end of buttons, collection views, etc----- */
+/* -----start of functions that establish constraints----- */
 
 	// centers collection view and adds color
 	fileprivate func setUpCollectionView() {
@@ -136,9 +159,18 @@ class ViewController: UIViewController {
 	// sets constraints for profile button
 	fileprivate func setUpProfileButton() {
 		profileButton.translatesAutoresizingMaskIntoConstraints = false
-		profileButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 17).isActive = true
-		profileButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
+		profileButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+		profileButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
 	}
+	
+	// sets constraints for message center button
+	fileprivate func setUpMessageCenterButton() {
+		messageCenterButton.translatesAutoresizingMaskIntoConstraints = false
+		messageCenterButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+		messageCenterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
+	}
+	
+/* -----end of functions that establish constraints----- */
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -147,6 +179,7 @@ class ViewController: UIViewController {
 		setUpCollectionView()
 		setUpHorizontalLine()
 		setUpProfileButton()
+		setUpMessageCenterButton()
 	}
 }
 
