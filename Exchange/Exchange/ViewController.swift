@@ -43,6 +43,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 }
 
 class ViewController: UIViewController {
+	static var pageCount = 0
 
 	// creates collection view
 	fileprivate lazy var collectionView: UICollectionView = {
@@ -70,7 +71,8 @@ class ViewController: UIViewController {
 	fileprivate lazy var eventLocationLabel: UILabel = {
 		let eventLocationLabel = UILabel()
 		eventLocationLabel.text = "Los Angeles, California"
-		eventLocationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)	// setting font to SF typeface
+		eventLocationLabel.textColor = UIColor(red: 150.0 / 255.0, green: 150.0 / 255.0, blue: 150.0 / 255.0, alpha: 1.0)
+		eventLocationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
 		eventLocationLabel.sizeToFit()
 		self.view.addSubview(eventLocationLabel)
 		return eventLocationLabel
@@ -79,8 +81,9 @@ class ViewController: UIViewController {
 	// distance from event location and user
 	fileprivate lazy var eventDistanceLabel: UILabel = {
 		let eventDistanceLabel = UILabel()
-		eventDistanceLabel.text = "-1 mil"
-		eventDistanceLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)	// setting font to SF typeface
+		eventDistanceLabel.text = "-1 mi."
+		eventDistanceLabel.textColor = UIColor(red: 150.0 / 255.0, green: 150.0 / 255.0, blue: 150.0 / 255.0, alpha: 1.0)
+		eventDistanceLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
 		eventDistanceLabel.sizeToFit()
 		self.view.addSubview(eventDistanceLabel)
 		return eventDistanceLabel
@@ -106,9 +109,11 @@ class ViewController: UIViewController {
 
 	// centers collection view and adds color
 	fileprivate func setUpCollectionView() {
-		collectionView.backgroundColor = UIColor(red: 239.0 / 255.0, green: 240.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
 		collectionView.delegate = self
 		collectionView.dataSource = self
+	
+		collectionView.backgroundColor = UIColor(red: 239.0 / 255.0, green: 240.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
+		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
@@ -118,6 +123,7 @@ class ViewController: UIViewController {
 		collectionView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.85).isActive = true
 	}
 	
+	// sets constraints for event name, location, and distance
 	fileprivate func setUpEventData() {
 		eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
 		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
