@@ -76,10 +76,20 @@ class ViewController: UIViewController {
 	fileprivate lazy var horizontalLine: UIView = {
 		let horizontalLine = UIView()
 		horizontalLine.frame.size.height = 1.0
-		horizontalLine.frame.size.width = self.view.bounds.width - 25
+		horizontalLine.frame.size.width = self.view.bounds.width - 30
 		horizontalLine.backgroundColor = UIColor(red: 130.0 / 255.0, green: 130.0 / 255.0, blue: 130.0 / 255.0, alpha: 1.0)
+		horizontalLine.sizeToFit()
 		self.view.addSubview(horizontalLine)
 		return horizontalLine
+	}()
+	
+	// profile button
+	fileprivate lazy var profileButton: UIButton = {
+		let profileButton = UIButton()
+//		let profileButtonImageResized = resizeImage(image: UIImage(named: "profile")!, newWidth: 0.8)
+		profileButton.setImage(UIImage(named: "resized_profile"), for: .normal)
+		self.view.addSubview(profileButton)
+		return profileButton
 	}()
 
 	// centers collection view and adds color
@@ -100,16 +110,18 @@ class ViewController: UIViewController {
 	
 	// sets constraints for event name, location, and distance
 	fileprivate func setUpEventData() {
+		let factor = 35
+	
 		eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
-		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(50 + factor)).isActive = true
 		eventNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
 
 		eventLocationLabel.translatesAutoresizingMaskIntoConstraints = false
-		eventLocationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+		eventLocationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(90 + factor)).isActive = true
 		eventLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
 
 		eventDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
-		eventDistanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 125).isActive = true
+		eventDistanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(115 + factor)).isActive = true
 		eventDistanceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
 	}
 	
@@ -117,8 +129,15 @@ class ViewController: UIViewController {
 	fileprivate func setUpHorizontalLine() {
 		horizontalLine.translatesAutoresizingMaskIntoConstraints = false
 //		horizontalLine.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+//		horizontalLine.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 30).isActive = true
 		horizontalLine.center = CGPoint(x: self.view.bounds.width / 2, y: 200)
-//		horizontalLine.center = self.view.center
+	}
+	
+	// sets constraints for profile button
+	fileprivate func setUpProfileButton() {
+		profileButton.translatesAutoresizingMaskIntoConstraints = false
+		profileButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 17).isActive = true
+		profileButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
 	}
 
 	override func viewDidLoad() {
@@ -127,6 +146,7 @@ class ViewController: UIViewController {
 		setUpEventData()
 		setUpCollectionView()
 		setUpHorizontalLine()
+		setUpProfileButton()
 	}
 }
 
@@ -148,7 +168,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 	}
 	
 	// snapping cells after done scrolling (TO DO: FIX)
-	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>, willDecelerate decelerate: Bool) {
 		let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
 		let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
 		
@@ -158,10 +178,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 		
 		offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
 		targetContentOffset.pointee = offset
-	}
-	
-	// if scrolling is done, haptic feedback
-	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		
 		if !(decelerate) {
 			let generator = UIImpactFeedbackGenerator(style: .light)
 			generator.impactOccurred()
