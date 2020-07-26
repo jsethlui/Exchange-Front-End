@@ -15,7 +15,7 @@ class EventCell: UICollectionViewCell {
 		imageView.contentMode = .scaleAspectFill
 		imageView.clipsToBounds = true
 		imageView.image = UIImage(named: "alchemy_tour")
-		imageView.layer.cornerRadius = 12
+		imageView.layer.cornerRadius = 14
 		return imageView
 	}()
 	

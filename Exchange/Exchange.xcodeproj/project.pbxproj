@@ -15,9 +15,7 @@
 		886CFD3424C4F63A00986B6E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 886CFD3224C4F63A00986B6E /* Main.storyboard */; };
 		886CFD3624C4F63D00986B6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 886CFD3524C4F63D00986B6E /* Assets.xcassets */; };
 		886CFD3924C4F63D00986B6E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 886CFD3724C4F63D00986B6E /* LaunchScreen.storyboard */; };
-		886CFD4124C4F89E00986B6E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CFD4024C4F89E00986B6E /* CustomButton.swift */; };
-		886CFD4424C5024800986B6E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CFD4324C5024800986B6E /* Colors.swift */; };
-		886CFD4724C5195E00986B6E /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CFD4624C5195E00986B6E /* EventView.swift */; };
+		886CFD4724C5195E00986B6E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CFD4624C5195E00986B6E /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,9 +29,7 @@
 		886CFD3524C4F63D00986B6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		886CFD3824C4F63D00986B6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		886CFD3A24C4F63D00986B6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		886CFD4024C4F89E00986B6E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		886CFD4324C5024800986B6E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		886CFD4624C5195E00986B6E /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
+		886CFD4624C5195E00986B6E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +43,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		881DD2C024CD10C400B1CBD0 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				881DD2BE24CCFE7400B1CBD0 /* Event.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		8825F4A824C77D230044FCF8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,31 +81,21 @@
 				886CFD2C24C4F63A00986B6E /* AppDelegate.swift */,
 				886CFD2E24C4F63A00986B6E /* SceneDelegate.swift */,
 				886CFD3024C4F63A00986B6E /* ViewController.swift */,
-				881DD2BE24CCFE7400B1CBD0 /* Event.swift */,
 				886CFD3224C4F63A00986B6E /* Main.storyboard */,
 				886CFD3524C4F63D00986B6E /* Assets.xcassets */,
 				886CFD3724C4F63D00986B6E /* LaunchScreen.storyboard */,
 				886CFD3A24C4F63D00986B6E /* Info.plist */,
+				881DD2C024CD10C400B1CBD0 /* Classes */,
 				8825F4A824C77D230044FCF8 /* Cells */,
 				886CFD4524C5194C00986B6E /* Views */,
-				886CFD4224C4F8A300986B6E /* Custom Controls */,
 			);
 			path = Exchange;
-			sourceTree = "<group>";
-		};
-		886CFD4224C4F8A300986B6E /* Custom Controls */ = {
-			isa = PBXGroup;
-			children = (
-				886CFD4024C4F89E00986B6E /* CustomButton.swift */,
-				886CFD4324C5024800986B6E /* Colors.swift */,
-			);
-			path = "Custom Controls";
 			sourceTree = "<group>";
 		};
 		886CFD4524C5194C00986B6E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				886CFD4624C5195E00986B6E /* EventView.swift */,
+				886CFD4624C5195E00986B6E /* ProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,11 +171,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				886CFD4124C4F89E00986B6E /* CustomButton.swift in Sources */,
-				886CFD4424C5024800986B6E /* Colors.swift in Sources */,
 				886CFD3124C4F63A00986B6E /* ViewController.swift in Sources */,
 				8825F4A724C7752C0044FCF8 /* EventCell.swift in Sources */,
-				886CFD4724C5195E00986B6E /* EventView.swift in Sources */,
+				886CFD4724C5195E00986B6E /* ProfileView.swift in Sources */,
 				881DD2BF24CCFE7400B1CBD0 /* Event.swift in Sources */,
 				886CFD2D24C4F63A00986B6E /* AppDelegate.swift in Sources */,
 				886CFD2F24C4F63A00986B6E /* SceneDelegate.swift in Sources */,

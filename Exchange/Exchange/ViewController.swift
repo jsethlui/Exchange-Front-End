@@ -8,12 +8,82 @@
 
 import UIKit
 
+extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+	// height of each event cell
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		return CGSize(width: collectionView.frame.width * 0.85, height: collectionView.frame.height * 1.1)
+	}
+	
+	// total number of event cells
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 6
+	}
+	
+	//UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.regular)
+	
+	// color of background of event cell
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
+		let eventButton = UIButton()
+		eventButton.frame.size = CGSize(width: collectionView.frame.width * 0.85, height: collectionView.frame.height * 1.1)
+		eventButton.addTarget(self, action: #selector(eventButtonPressed), for: .touchUpInside)
+		cell.addSubview(eventButton)
+		return cell
+	}
+	
+	// sets distance between cells
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+		return 75
+	}
+	
+	// sets distance between cells
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+		return 75
+	}
+	
+	func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+		let centerPoint = view.convert(view.center, to: collectionView)
+		guard let centerIndexPath = collectionView.indexPathForItem(at: centerPoint) else { return nil }
+		collectionView.scrollToItem(at: centerIndexPath, at: .centeredHorizontally, animated: true)
+	}
+	
+	func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		if !decelerate {
+			let centerPoint = view.convertPoint(view.center, toView: collectionView)
+			guard let centerIndexPath = collectionView.indexPathForItemAtPoint(centerPoint)
+			collectionView.scrollToItemAtIndexPath(centerIndexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+		}
+	}
+	
+	// snapping cells after done scrolling (TO DO: FIX)
+	//	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>, willDecelerate decelerate: Bool) {
+	//		let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+	//		let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+	//
+	//		var offset = targetContentOffset.pointee
+	//		let index = (offset.x + scrollView.contentInset.left) / (cellWidthIncludingSpacing)
+	//		let roundedIndex = round(index)
+	//
+	//		offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
+	//		targetContentOffset.pointee = offset
+	//
+	//		if !(decelerate) {
+	//			let generator = UIImpactFeedbackGenerator(style: .light)
+	//			generator.impactOccurred()
+	//		}
+	//	}
+}
+
+
 class ViewController: UIViewController {
 	static var pageCount = 0
 	let mainViewBackgroundColor = UIColor(red: 255.0 / 255.0, green: 254.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-
-/* -----start of buttons, collection views, etc----- */
-
+	var allEvents: [Event] = []
+	
+	static var profileView = ProfileView()
+	
+	/* -----start of buttons, collection views, etc----- */
+	
 	// creates collection view
 	fileprivate lazy var collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
@@ -61,18 +131,18 @@ class ViewController: UIViewController {
 	// sets data for object
 	fileprivate func setObject(object: String, str: String) {
 		switch (object) {
-			case "eventName":	// set event title
-				eventNameLabel.text = str
-				break;
-			case "locationName":
-				eventLocationLabel.text = str
-				break
-			case "eventDistance":
-				eventDistanceLabel.text = str
-				break
-			default:	//do nothing
-				print("Error: invalid object")
-				break
+		case "eventName":	// set event title
+			eventNameLabel.text = str
+			break;
+		case "locationName":
+			eventLocationLabel.text = str
+			break
+		case "eventDistance":
+			eventDistanceLabel.text = str
+			break
+		default:	//do nothing
+			print("Error: invalid object")
+			break
 		}
 	}
 	
@@ -115,14 +185,18 @@ class ViewController: UIViewController {
 		print("message center button pressed")
 	}
 	
-/* -----end of buttons, collection views, etc----- */
-/* -----start of functions that establish constraints----- */
-
+	@objc func eventButtonPressed(sender: UIButton!) {
+		print("event pressed")
+	}
+	
+	/* -----end of buttons, collection views, etc----- */
+	/* -----start of functions that establish constraints----- */
+	
 	// centers collection view and adds color
 	fileprivate func setUpCollectionView() {
 		collectionView.delegate = self
 		collectionView.dataSource = self
-	
+		
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 230).isActive = true
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60).isActive = true
@@ -136,15 +210,15 @@ class ViewController: UIViewController {
 	// sets constraints for event name, location, and distance
 	fileprivate func setUpEventData() {
 		let factor = 35
-	
+		
 		eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
 		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(50 + factor)).isActive = true
 		eventNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-
+		
 		eventLocationLabel.translatesAutoresizingMaskIntoConstraints = false
 		eventLocationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(90 + factor)).isActive = true
 		eventLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-
+		
 		eventDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
 		eventDistanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(115 + factor)).isActive = true
 		eventDistanceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
@@ -153,8 +227,8 @@ class ViewController: UIViewController {
 	// sets constraints for dividing horizontal line between event data and carousel
 	fileprivate func setUpHorizontalLine() {
 		horizontalLine.translatesAutoresizingMaskIntoConstraints = false
-//		horizontalLine.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
-//		horizontalLine.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 30).isActive = true
+		//		horizontalLine.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+		//		horizontalLine.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 30).isActive = true
 		horizontalLine.center = CGPoint(x: self.view.bounds.width / 2, y: 200)
 	}
 	
@@ -172,63 +246,17 @@ class ViewController: UIViewController {
 		messageCenterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
 	}
 	
-/* -----end of functions that establish constraints----- */
-
+	/* -----end of functions that establish constraints----- */
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
+		
 		self.view.backgroundColor = mainViewBackgroundColor
-
+		
 		setUpEventData()
 		setUpCollectionView()
 		setUpHorizontalLine()
 		setUpProfileButton()
 		setUpMessageCenterButton()
-	}
-}
-
-extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-	// height of each event cell
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: collectionView.frame.width * 0.85, height: collectionView.frame.height * 1.1)
-	}
-	
-	// total number of event cells
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 6
-	}
-		
-	// color of background of event cell
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
-		return cell
-	}
-	
-	// sets distance between cells
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		return 75
-	}
-
-	// sets distance between cells
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-		return 75
-	}
-	
-	// snapping cells after done scrolling (TO DO: FIX)
-	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>, willDecelerate decelerate: Bool) {
-		let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-		let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-		
-		var offset = targetContentOffset.pointee
-		let index = (offset.x + scrollView.contentInset.left) / (cellWidthIncludingSpacing)
-		let roundedIndex = round(index)
-		
-		offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
-		targetContentOffset.pointee = offset
-		
-		if !(decelerate) {
-			let generator = UIImpactFeedbackGenerator(style: .light)
-			generator.impactOccurred()
-		}
 	}
 }
