@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 	static var pageCount = 0
+	let mainViewBackgroundColor = UIColor(red: 255.0 / 255.0, green: 254.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
 
 /* -----start of buttons, collection views, etc----- */
 
@@ -19,6 +20,7 @@ class ViewController: UIViewController {
 		layout.scrollDirection = .horizontal
 		
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		collectionView.backgroundColor = mainViewBackgroundColor
 		collectionView.register(EventCell.self, forCellWithReuseIdentifier: "cell")
 		self.view.addSubview(collectionView)
 		return collectionView
@@ -77,7 +79,7 @@ class ViewController: UIViewController {
 	// dividing line between event data and carousel cells
 	fileprivate lazy var horizontalLine: UIView = {
 		let horizontalLine = UIView()
-		horizontalLine.frame.size.height = 1.0
+		horizontalLine.frame.size.height = 1.3
 		horizontalLine.frame.size.width = self.view.bounds.width - 30
 		horizontalLine.backgroundColor = UIColor(red: 130.0 / 255.0, green: 130.0 / 255.0, blue: 130.0 / 255.0, alpha: 1.0)
 		horizontalLine.sizeToFit()
@@ -108,6 +110,7 @@ class ViewController: UIViewController {
 		return messageCenterButton
 	}()
 	
+	// action for when message center button is pressed
 	@objc func messageCenterButtonPressed(sender: UIButton!) {
 		print("message center button pressed")
 	}
@@ -120,10 +123,9 @@ class ViewController: UIViewController {
 		collectionView.delegate = self
 		collectionView.dataSource = self
 	
-		collectionView.backgroundColor = UIColor(red: 239.0 / 255.0, green: 240.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 230).isActive = true
-		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
 		collectionView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.85).isActive = true
 		collectionView.showsHorizontalScrollIndicator = false
@@ -175,6 +177,8 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		self.view.backgroundColor = mainViewBackgroundColor
+
 		setUpEventData()
 		setUpCollectionView()
 		setUpHorizontalLine()
@@ -198,6 +202,16 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
 		return cell
+	}
+	
+	// sets distance between cells
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+		return 75
+	}
+
+	// sets distance between cells
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+		return 75
 	}
 	
 	// snapping cells after done scrolling (TO DO: FIX)
