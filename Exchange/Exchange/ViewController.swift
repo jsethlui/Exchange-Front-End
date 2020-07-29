@@ -19,8 +19,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 		return 6
 	}
 	
-	//UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.regular)
-	
 	// color of background of event cell
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
@@ -41,46 +39,47 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 		return 75
 	}
 	
-	func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-		let centerPoint = view.convert(view.center, to: collectionView)
-		guard let centerIndexPath = collectionView.indexPathForItem(at: centerPoint) else { return nil }
-		collectionView.scrollToItem(at: centerIndexPath, at: .centeredHorizontally, animated: true)
-	}
-	
-	func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-		if !decelerate {
-			let centerPoint = view.convertPoint(view.center, toView: collectionView)
-			guard let centerIndexPath = collectionView.indexPathForItemAtPoint(centerPoint)
-			collectionView.scrollToItemAtIndexPath(centerIndexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+	 //snapping cells after done scrolling (TO DO: FIX)
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+		let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+		let bounds = scrollView.bounds
+		let xTarget = targetContentOffset.pointee.x
+
+		// This is the max contentOffset.x to allow. With this as contentOffset.x, the right edge of the last column of cells is at the right edge of the collection view's frame.
+		let xMax = scrollView.contentSize.width - scrollView.bounds.width
+
+		var snapToMostVisibleColumnVelocityThreshold: CGFloat { return 0.3 }
+		if abs(velocity.x) <= snapToMostVisibleColumnVelocityThreshold {
+			let xCenter = scrollView.bounds.midX
+			let poses = layout.layoutAttributesForElements(in: bounds) ?? []
+			// Find the column whose center is closest to the collection view's visible rect's center.
+			let x = poses.min(by: { abs($0.center.x - xCenter) < abs($1.center.x - xCenter) })?.frame.origin.x ?? 0
+			targetContentOffset.pointee.x = x
+		} else if velocity.x > 0 {
+			let poses = layout.layoutAttributesForElements(in: CGRect(x: xTarget, y: 0, width: bounds.size.width, height: bounds.size.height)) ?? []
+			// Find the leftmost column beyond the current position.
+			let xCurrent = scrollView.contentOffset.x
+			let x = poses.filter({ $0.frame.origin.x > xCurrent}).min(by: { $0.center.x < $1.center.x })?.frame.origin.x ?? xMax
+			targetContentOffset.pointee.x = min(x, xMax)
+		} else {
+			let poses = layout.layoutAttributesForElements(in: CGRect(x: xTarget - bounds.size.width, y: 0, width: bounds.size.width, height: bounds.size.height)) ?? []
+			// Find the rightmost column.
+			let x = poses.max(by: { $0.center.x < $1.center.x })?.frame.origin.x ?? 0
+			targetContentOffset.pointee.x = max(x, 0)
 		}
 	}
-	
-	// snapping cells after done scrolling (TO DO: FIX)
-	//	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>, willDecelerate decelerate: Bool) {
-	//		let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-	//		let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-	//
-	//		var offset = targetContentOffset.pointee
-	//		let index = (offset.x + scrollView.contentInset.left) / (cellWidthIncludingSpacing)
-	//		let roundedIndex = round(index)
-	//
-	//		offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
-	//		targetContentOffset.pointee = offset
-	//
-	//		if !(decelerate) {
-	//			let generator = UIImpactFeedbackGenerator(style: .light)
-	//			generator.impactOccurred()
-	//		}
-	//	}
 }
-
 
 class ViewController: UIViewController {
 	static var pageCount = 0
 	let mainViewBackgroundColor = UIColor(red: 255.0 / 255.0, green: 254.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-	var allEvents: [Event] = []
-	
-	static var profileView = ProfileView()
+	var allEvents: [Event] = [
+		Event(name: "The Alchemy Tour", venue: "Shoreline Amphitheatre", eventDate: "", city: "Mountain View", state: "CA", distance: -1, image: UIImage(named: "alchemy_tour")!),
+		Event(name: "Illenium: Ascend Tour", venue: "Bill Graham Civic Auditorium", eventDate: "", city: "San Francisco", state: "CA", distance: -1, image: UIImage(named: "illenium_tour")!),
+		Event(name: "Dabin: Into The Wild Tour", venue: "The Regency Ballroom", eventDate: "", city: "San Francisco", state: "CA", distance: -1, image: UIImage(named: "dabin_tour")!),
+		Event(name: "Slander: The Eye Tour", venue: "Bill Graham Civic Auditorium", eventDate: ""m city: "San Francisco", state: "CA", distance: -1, image: UIImage(named: "slander_tour")!),
+		Event(name: "Ekali at Shrine Expo Hall", venue: "Shrine Auditorium & Expo Hall", eventDate: "", city: "Los Angeles", state: "CA", distance: -1, image: UIImage(named: "ekali_tour")!),
+	]
 	
 	/* -----start of buttons, collection views, etc----- */
 	
@@ -168,6 +167,9 @@ class ViewController: UIViewController {
 	
 	// action for when profile button is pressed
 	@objc func profileButtonPressed(sender: UIButton!) {
+		let storyboard = UIStoryboard(name: "AccountLinking", bundle: nil)
+		let linkingVC = storyboard.instantiateViewController(withIdentifier: "AccountLinkingTable")
+		self.navigationController?.pushViewController(linkingVC, animated: true)
 		print("profile button pressed")
 	}
 	
