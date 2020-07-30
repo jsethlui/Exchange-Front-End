@@ -9,21 +9,21 @@
 import UIKit
 
 extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-	// height of each event cell
+	// width and height of each event cell
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: collectionView.frame.width * 0.85, height: collectionView.frame.height * 1.1)
+		return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 2)
 	}
 	
 	// total number of event cells
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 6
+		return 5
 	}
 	
 	// color of background of event cell
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
 		let eventButton = UIButton()
-		eventButton.frame.size = CGSize(width: collectionView.frame.width * 0.85, height: collectionView.frame.height * 1.1)
+		eventButton.frame.size = CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
 		eventButton.addTarget(self, action: #selector(eventButtonPressed), for: .touchUpInside)
 		cell.addSubview(eventButton)
 		return cell
@@ -31,12 +31,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 	
 	// sets distance between cells
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		return 75
+		return 50
 	}
 	
 	// sets distance between cells
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-		return 75
+		return 50
 	}
 	
 	 //snapping cells after done scrolling (TO DO: FIX)
@@ -193,13 +193,13 @@ class ViewController: UIViewController {
 		collectionView.dataSource = self
 		
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
-		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 230).isActive = true
-		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60).isActive = true
-		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
+		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
 		collectionView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.85).isActive = true
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.showsVerticalScrollIndicator = false
-		collectionView.heightAnchor.constraint(equalToConstant: view.frame.width * 1.1).isActive = true
+		collectionView.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
 	}
 	
 	// sets constraints for event name, location, and distance
