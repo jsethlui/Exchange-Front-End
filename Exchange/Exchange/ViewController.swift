@@ -73,13 +73,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 class ViewController: UIViewController {
 	static var pageCount = 0
 	let mainViewBackgroundColor = UIColor(red: 255.0 / 255.0, green: 254.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-	var allEvents: [Event] = [
-		Event(name: "The Alchemy Tour", venue: "Shoreline Amphitheatre", eventDate: "", city: "Mountain View", state: "CA", distance: -1, image: UIImage(named: "alchemy_tour")!),
-		Event(name: "Illenium: Ascend Tour", venue: "Bill Graham Civic Auditorium", eventDate: "", city: "San Francisco", state: "CA", distance: -1, image: UIImage(named: "illenium_tour")!),
-		Event(name: "Dabin: Into The Wild Tour", venue: "The Regency Ballroom", eventDate: "", city: "San Francisco", state: "CA", distance: -1, image: UIImage(named: "dabin_tour")!),
-		Event(name: "Slander: The Eye Tour", venue: "Bill Graham Civic Auditorium", eventDate: ""m city: "San Francisco", state: "CA", distance: -1, image: UIImage(named: "slander_tour")!),
-		Event(name: "Ekali at Shrine Expo Hall", venue: "Shrine Auditorium & Expo Hall", eventDate: "", city: "Los Angeles", state: "CA", distance: -1, image: UIImage(named: "ekali_tour")!),
-	]
 	
 	/* -----start of buttons, collection views, etc----- */
 	
@@ -229,8 +222,6 @@ class ViewController: UIViewController {
 	// sets constraints for dividing horizontal line between event data and carousel
 	fileprivate func setUpHorizontalLine() {
 		horizontalLine.translatesAutoresizingMaskIntoConstraints = false
-		//		horizontalLine.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
-		//		horizontalLine.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 30).isActive = true
 		horizontalLine.center = CGPoint(x: self.view.bounds.width / 2, y: 200)
 	}
 	

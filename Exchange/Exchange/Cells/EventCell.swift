@@ -8,6 +8,16 @@
 
 import UIKit
 
+extension UIImageView {
+	func setCircularBorder() {
+		self.layer.borderWidth = 1
+		self.layer.masksToBounds = false
+		self.layer.borderColor = UIColor.black.cgColor
+		self.layer.cornerRadius = self.frame.height / 2
+		self.clipsToBounds = true
+	}
+}
+
 class EventCell: UICollectionViewCell {
 	fileprivate let cell: UIImageView = {
 		let imageView = UIImageView()
@@ -16,6 +26,17 @@ class EventCell: UICollectionViewCell {
 		imageView.clipsToBounds = true
 		imageView.image = UIImage(named: "alchemy_tour")
 		imageView.layer.cornerRadius = 14
+		return imageView
+
+//		let event = Event("Illenium: Ascend Tour", venue: "Chase Center", "Saturday, December 14, 2019", "San Francisco", "CA", distance: -1, headerImage: UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)), mainImage: UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)))
+//		event.mainImage.image = UIImage(named: "illenium_main_image")
+//
+//		let imageView = UIImageView()
+//		imageView.translatesAutoresizingMaskIntoConstraints = false
+//		imageView.contentMode = .scaleAspectFit
+//		imageView.clipsToBounds = true
+//		imageView.image = event.mainImage.image
+//		imageView.setCircularBorder()
 		return imageView
 	}()
 	

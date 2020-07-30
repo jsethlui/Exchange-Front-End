@@ -10,22 +10,25 @@ import UIKit
 
 class Event {
 	// data members
+	// note: public to avoid getters
 	public var name: String
 	public var venue: String
 	public var eventDate: String
 	public var city: String
 	public var state: String
 	public var distance: Float
-	public var image: UIImage
+	public var headerImage: UIImageView
+	public var mainImage: UIImageView
 	
 	// constructor
-	init(name: String = "N/A", venue: String = "N/A", eventDate: String = "01/01/2019", city: String = "N/A", state: String = "N/A", distance: Float = -1, image: UIImage) {
+	init(_ name: String, venue: String, _ eventDate: String, _ city: String, _ state: String, distance: Float, headerImage: UIImageView, mainImage: UIImageView) {
 		self.name = name
 		self.venue = venue
 		self.eventDate = eventDate
 		self.city = city
 		self.state = state
-		self.distance = distance / 1.0	// to cast to float
-		self.image = image
+		self.distance = distance
+		self.headerImage = headerImage
+		self.mainImage = mainImage
 	}
 }
