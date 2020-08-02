@@ -8,16 +8,6 @@
 
 import UIKit
 
-extension UIImageView {
-	func setCircularBorder() {
-		self.layer.borderWidth = 2
-		self.layer.masksToBounds = false
-		self.layer.borderColor = UIColor.yellow.cgColor
-		self.layer.cornerRadius = self.frame.height / 2
-		self.clipsToBounds = true
-	}
-}
-
 class EventCell: UICollectionViewCell {
 	fileprivate let cell: UIImageView = {
 //		let imageView = UIImageView()

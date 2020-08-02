@@ -8,6 +8,16 @@
 
 import UIKit
 
+extension UIImageView {
+	func setCircularBorder() {
+		self.layer.borderWidth = 2
+		self.layer.masksToBounds = false
+		self.layer.borderColor = UIColor.yellow.cgColor
+		self.layer.cornerRadius = self.frame.height / 2
+		self.clipsToBounds = true
+	}
+}
+
 extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 	// width and height of each event cell
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -97,57 +107,39 @@ class ViewController: UIViewController {
 		self.view.addSubview(eventNameLabel)
 		return eventNameLabel
 	}()
-	
-	// name for event's location
-	fileprivate lazy var eventLocationLabel: UILabel = {
-		let eventLocationLabel = UILabel()
-		eventLocationLabel.text = "Los Angeles, California"
-		eventLocationLabel.textColor = UIColor(red: 150.0 / 255.0, green: 150.0 / 255.0, blue: 150.0 / 255.0, alpha: 1.0)
-		eventLocationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
-		eventLocationLabel.sizeToFit()
-		self.view.addSubview(eventLocationLabel)
-		return eventLocationLabel
-	}()
-	
-	// distance from event location and user
-	fileprivate lazy var eventDistanceLabel: UILabel = {
-		let eventDistanceLabel = UILabel()
-		eventDistanceLabel.text = "-1 mi."
-		eventDistanceLabel.textColor = UIColor(red: 150.0 / 255.0, green: 150.0 / 255.0, blue: 150.0 / 255.0, alpha: 1.0)
-		eventDistanceLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
-		eventDistanceLabel.sizeToFit()
-		self.view.addSubview(eventDistanceLabel)
-		return eventDistanceLabel
-	}()
-	
-	// sets data for object
-	fileprivate func setObject(object: String, str: String) {
-		switch (object) {
-		case "eventName":	// set event title
-			eventNameLabel.text = str
-			break;
-		case "locationName":
-			eventLocationLabel.text = str
-			break
-		case "eventDistance":
-			eventDistanceLabel.text = str
-			break
-		default:	//do nothing
-			print("Error: invalid object")
-			break
-		}
-	}
+//
+//	// name for event's location
+//	fileprivate lazy var eventLocationLabel: UILabel = {
+//		let eventLocationLabel = UILabel()
+//		eventLocationLabel.text = "Los Angeles, California"
+//		eventLocationLabel.textColor = UIColor(red: 150.0 / 255.0, green: 150.0 / 255.0, blue: 150.0 / 255.0, alpha: 1.0)
+//		eventLocationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
+//		eventLocationLabel.sizeToFit()
+//		self.view.addSubview(eventLocationLabel)
+//		return eventLocationLabel
+//	}()
+//
+//	// distance from event location and user
+//	fileprivate lazy var eventDistanceLabel: UILabel = {
+//		let eventDistanceLabel = UILabel()
+//		eventDistanceLabel.text = "-1 mi."
+//		eventDistanceLabel.textColor = UIColor(red: 150.0 / 255.0, green: 150.0 / 255.0, blue: 150.0 / 255.0, alpha: 1.0)
+//		eventDistanceLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
+//		eventDistanceLabel.sizeToFit()
+//		self.view.addSubview(eventDistanceLabel)
+//		return eventDistanceLabel
+//	}()
 	
 	// dividing line between event data and carousel cells
-	fileprivate lazy var horizontalLine: UIView = {
-		let horizontalLine = UIView()
-		horizontalLine.frame.size.height = 1.3
-		horizontalLine.frame.size.width = self.view.bounds.width - 30
-		horizontalLine.backgroundColor = UIColor(red: 130.0 / 255.0, green: 130.0 / 255.0, blue: 130.0 / 255.0, alpha: 1.0)
-		horizontalLine.sizeToFit()
-		self.view.addSubview(horizontalLine)
-		return horizontalLine
-	}()
+//	fileprivate lazy var horizontalLine: UIView = {
+//		let horizontalLine = UIView()
+//		horizontalLine.frame.size.height = 1.3
+//		horizontalLine.frame.size.width = self.view.bounds.width - 30
+//		horizontalLine.backgroundColor = UIColor(red: 130.0 / 255.0, green: 130.0 / 255.0, blue: 130.0 / 255.0, alpha: 1.0)
+//		horizontalLine.sizeToFit()
+//		self.view.addSubview(horizontalLine)
+//		return horizontalLine
+//	}()
 	
 	// profile button
 	fileprivate lazy var profileButton: UIButton = {
@@ -160,9 +152,6 @@ class ViewController: UIViewController {
 	
 	// action for when profile button is pressed
 	@objc func profileButtonPressed(sender: UIButton!) {
-		let storyboard = UIStoryboard(name: "AccountLinking", bundle: nil)
-		let linkingVC = storyboard.instantiateViewController(withIdentifier: "AccountLinkingTable")
-		self.navigationController?.pushViewController(linkingVC, animated: true)
 		print("profile button pressed")
 	}
 	
@@ -184,6 +173,20 @@ class ViewController: UIViewController {
 		print("event pressed")
 	}
 	
+	// avatar profile button
+	fileprivate lazy var artistProfileButton: UIButton = {
+		let artistProfileButton = UIButton()
+		let profileImage = UIImage(named: "illenium_main_image")
+		artistProfileButton.frame = CGRect(x: 0, y: 0, width: profileImage!.size.width, height: profileImage!.size.height)
+		artistProfileButton.layer.cornerRadius = artistProfileButton.bounds.size.width / 2.0
+		artistProfileButton.clipsToBounds = true
+		artistProfileButton.setImage(profileImage, for: .normal)
+		artistProfileButton.layer.borderWidth = 4
+		artistProfileButton.layer.borderColor = mainViewBackgroundColor.cgColor
+		self.view.addSubview(artistProfileButton)
+		return artistProfileButton
+	}()
+	
 	/* -----end of buttons, collection views, etc----- */
 	/* -----start of functions that establish constraints----- */
 	
@@ -193,7 +196,7 @@ class ViewController: UIViewController {
 		collectionView.dataSource = self
 		
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
-		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
+		collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5).isActive = true
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
 		collectionView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.85).isActive = true
@@ -207,22 +210,23 @@ class ViewController: UIViewController {
 		let factor = 35
 		
 		eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
-		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(50 + factor)).isActive = true
+		eventNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(300)).isActive = true
 		eventNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-		
-		eventLocationLabel.translatesAutoresizingMaskIntoConstraints = false
-		eventLocationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(90 + factor)).isActive = true
-		eventLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-		
-		eventDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
-		eventDistanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(115 + factor)).isActive = true
-		eventDistanceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+		eventNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
+
+//		eventLocationLabel.translatesAutoresizingMaskIntoConstraints = false
+//		eventLocationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(90 + factor)).isActive = true
+//		eventLocationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+//
+//		eventDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
+//		eventDistanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(115 + factor)).isActive = true
+//		eventDistanceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
 	}
 	
 	// sets constraints for dividing horizontal line between event data and carousel
 	fileprivate func setUpHorizontalLine() {
-		horizontalLine.translatesAutoresizingMaskIntoConstraints = false
-		horizontalLine.center = CGPoint(x: self.view.bounds.width / 2, y: 200)
+//		horizontalLine.translatesAutoresizingMaskIntoConstraints = false
+//		horizontalLine.center = CGPoint(x: self.view.bounds.width / 2, y: 200)
 	}
 	
 	// sets constraints for profile button
@@ -239,6 +243,13 @@ class ViewController: UIViewController {
 		messageCenterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
 	}
 	
+	fileprivate func setUpArtistProfileButton() {
+		artistProfileButton.translatesAutoresizingMaskIntoConstraints = false
+		artistProfileButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 225).isActive = true
+		artistProfileButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 105).isActive = true
+		artistProfileButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -105).isActive = true
+	}
+	
 	/* -----end of functions that establish constraints----- */
 	
 	override func viewDidLoad() {
@@ -251,5 +262,6 @@ class ViewController: UIViewController {
 		setUpHorizontalLine()
 		setUpProfileButton()
 		setUpMessageCenterButton()
+		setUpArtistProfileButton()
 	}
 }
