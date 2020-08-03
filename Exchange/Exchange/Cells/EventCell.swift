@@ -10,20 +10,28 @@ import UIKit
 
 class EventCell: UICollectionViewCell {
 	fileprivate let cell: UIImageView = {
-		let imageView = UIImageView()
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		if (imageView.frame.width > imageView.frame.height) { // if image view width is greater than image view height
-			imageView.contentMode = .scaleAspectFit	// stretch image but maintain original aspect ratio
+		let cell = UIImageView()
+		cell.translatesAutoresizingMaskIntoConstraints = false
+		if (cell.frame.width > cell.frame.height) { // if image view width is greater than image view height
+			cell.contentMode = .scaleAspectFit	// stretch image but maintain original aspect ratio
 		} else {	// if image view <= image view height
-			imageView.contentMode = .scaleAspectFill	// stretch image as large as can go + crop parts that don't fit
+			cell.contentMode = .scaleAspectFill	// stretch image as large as can go + crop parts that don't fit
 		}
 		
-		imageView.clipsToBounds = true
-		imageView.backgroundColor = UIColor.green
-		return imageView
+		cell.clipsToBounds = true
+		cell.backgroundColor = UIColor.green
+		return cell
 	}()
 	
-	func setUpCell() -> Void {
+	// sets cell
+	public func setCell(someNum: Int) {
+		if (someNum == 1) {cell.backgroundColor = UIColor.red}
+		if (someNum == 2) {cell.backgroundColor = UIColor.blue}
+		else {cell.backgroundColor = UIColor.yellow}
+	}
+	
+	// sets up cell
+	private func setUpCell() -> Void {
 		cell.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
 		cell.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
 		cell.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true

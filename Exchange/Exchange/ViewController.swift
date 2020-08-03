@@ -11,7 +11,6 @@ import UIKit
 extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 	// width and height of each event cell
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		//return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
 		return CGSize(width: view.frame.width, height: view.frame.height)
 	}
 	
@@ -21,9 +20,18 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		switch (indexPath.row) {
-			case 1:
-				let cell: UICollectionViewCell = UICollectionViewCell(style: UICollectionViewCellStyle.Default, reuseIdentifier: "firstCustomCell")
+		if (indexPath.item == 1) {
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "illeniumCell", for: indexPath as IndexPath) as! EventCell
+			cell.setCell(someNum: 1)
+			return cell
+		} else if (indexPath.item == 2) {
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dabinCell", for: indexPath as IndexPath) as! EventCell
+			cell.setCell(someNum: 2)
+			return cell
+		} else {
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slanderCell", for: indexPath as IndexPath) as! EventCell
+			cell.setCell(someNum: 3)
+			return cell
 		}
 	}
 	
@@ -41,7 +49,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 		return 5
 	}
-
+	
 	// sets distance between cells
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
 		return 5
