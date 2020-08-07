@@ -32,17 +32,8 @@ class Event {
 		self.profileImage = profileImage
 	}
 	
-	// array of all events
-	static func getInterests() -> [Event] {
-		return [
-			Event("Illenium: Ascend Tour", venue: "Chase Center", "Sat. Dec 14", "San Francisco", "CA", distance: -1, headerImage: UIImage(named: "illenium_header_image")!, profileImage: UIImage(named: "illenium_profile_image")!),
-			Event("Dabin: Into The Wild", venue: "The Regency Ballroom", "Mon. March 30", "San Francicso", "CA", distance: -1, headerImage: UIImage(named: "dabin_header_image")!, profileImage: UIImage(named: "dabin_profile_image")!),
-			Event("Slander: The Eye Tour", venue: "Bill Graham Civic Auditorium", "Fri. April 3", "San Francisco", "CA", distance: -1, headerImage: UIImage(named: "slander_header_image")!, profileImage: UIImage(named: "slander_profile_image")!),
-		]
-	}
-	
-	// gets total number of interestss
-	func getNumInterests() -> Int {
-		return Event.getInterests().count
+	// returns event image
+	public func getHeaderImage() -> String {
+		return "illenium_header_image"
 	}
 }
