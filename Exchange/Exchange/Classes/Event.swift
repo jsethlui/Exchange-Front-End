@@ -31,9 +31,4 @@ class Event {
 		self.headerImage = headerImage
 		self.profileImage = profileImage
 	}
-	
-	// returns event image
-	public func getHeaderImage() -> String {
-		return "illenium_header_image"
-	}
 }

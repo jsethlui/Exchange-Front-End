@@ -52,7 +52,7 @@ extension EventViewController {
 	func collectionView(_ eventView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: eventCellID, for: indexPath) as! EventCell
 		let event = events[indexPath.row]
-		cell.imageView.image = UIImage.init(named: event.getHeaderImage())
+//		cell.imageView.image = UIImage.init(named: event.getHeaderImage())
 		return cell
 	}
 }

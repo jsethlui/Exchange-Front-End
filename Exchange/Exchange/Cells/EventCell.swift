@@ -10,6 +10,14 @@ import UIKit
 
 class EventCell: UICollectionViewCell {
 
+	var data: Event? {
+		didSet {
+			guard let data = data else {return}
+			eventHeaderImageView.image = data.headerImage
+			artistProfileButton.setImage(data.profileImage, for: .normal)
+		}
+	}
+
 	lazy var imageView: UIImageView = {
 		let imageView = UIImageView()
 		if (imageView.frame.width > imageView.frame.height) { // if image view width is greater than image view height
@@ -26,6 +34,7 @@ class EventCell: UICollectionViewCell {
 	
 	lazy var artistProfileButton: UIButton = {
 		let artistProfileButton = UIButton()
+		//let profileImage = UIImage(named: profileImageName)
 		let profileImage = UIImage(named: "illenium_profile_image")
 		artistProfileButton.frame = CGRect(x: 0, y: 0, width: profileImage!.size.width, height: profileImage!.size.height)
 		
@@ -41,8 +50,8 @@ class EventCell: UICollectionViewCell {
 	
 	lazy var eventHeaderImageView: UIImageView = {
 		let eventHeaderImageView = UIImageView()
+		//let eventHeaderImage = UIImage(named: headerImageName)!
 		let eventHeaderImage = UIImage(named: "illenium_header_image")!
-		//eventHeaderImageView.frame.size = CGSize(width: 300, height: 500)
 		eventHeaderImageView.backgroundColor = UIColor.red
 		eventHeaderImageView.setScaling(image: eventHeaderImage)
 		let screenSize = UIScreen.main.bounds
@@ -50,14 +59,9 @@ class EventCell: UICollectionViewCell {
 		return eventHeaderImageView
 	}()
 	
-	public func setCell(someNum: Int) {
-		if (someNum == 1) {self.imageView.backgroundColor = UIColor.red}
-		if (someNum == 2) {self.imageView.backgroundColor = UIColor.blue}
-		else {self.imageView.backgroundColor = UIColor.yellow}
-	}
-	
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
+		
 		self.contentView.backgroundColor = mainViewBackgroundColor
 		setupCell()
 	}

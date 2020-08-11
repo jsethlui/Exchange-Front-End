@@ -14,33 +14,20 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 		return CGSize(width: view.frame.width, height: view.frame.height)
 	}
 
-	// total number of event cells
+	// returns total number of events, is also total number of cells
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 5
+		return data.count
 	}
 
 	private func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: NSIndexPath) -> UICollectionViewCell {
-		if (indexPath.item == 1) {
-			print("indexPath.item: \(indexPath.item)")
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "illeniumCell", for: indexPath as IndexPath) as! EventCell
-			cell.setCell(someNum: 1)
-			return cell
-		} else if (indexPath.item == 2) {
-			print("indexPath.item: \(indexPath.item)")
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dabinCell", for: indexPath as IndexPath) as! EventCell
-			cell.setCell(someNum: 2)
-			return cell
-		} else {
-			print("indexPath.item: \(indexPath.item)")
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "slanderCell", for: indexPath as IndexPath) as! EventCell
-			cell.setCell(someNum: 3)
-			return cell
-		}
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath as IndexPath) as! EventCell
+		return cell
 	}
 
 	// color of background of event collection view
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCell
+		cell.data = self.data[indexPath.item]
 		let eventButton = UIButton()
 		eventButton.frame.size = CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
 		eventButton.addTarget(self, action: #selector(eventButtonPressed), for: .touchUpInside)
@@ -60,31 +47,35 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 
 	//snapping cells after done scrolling (TO DO: FIX)
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+		//collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
 		let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
 		let bounds = scrollView.bounds
-		let xTarget = targetContentOffset.pointee.x
+		let yTarget = targetContentOffset.pointee.y
 
 		// This is the max contentOffset.x to allow. With this as contentOffset.x, the right edge of the last column of cells is at the right edge of the collection view's frame.
-		let xMax = scrollView.contentSize.width - scrollView.bounds.width
+		let yMax = scrollView.contentSize.height - scrollView.bounds.height
+		print("yMax: \(yMax)")
 
-		var snapToMostVisibleColumnVelocityThreshold: CGFloat { return 0.3 }
-		if abs(velocity.x) <= snapToMostVisibleColumnVelocityThreshold {
-			let xCenter = scrollView.bounds.midX
+		var snapToMostVisibleColumnVelocityThreshold: CGFloat {
+			return 0.3
+		}
+		if abs(velocity.y) <= snapToMostVisibleColumnVelocityThreshold {
+			let yCenter = scrollView.bounds.midY
 			let poses = layout.layoutAttributesForElements(in: bounds) ?? []
 			// Find the column whose center is closest to the collection view's visible rect's center.
-			let x = poses.min(by: { abs($0.center.x - xCenter) < abs($1.center.x - xCenter) })?.frame.origin.x ?? 0
-			targetContentOffset.pointee.x = x
-		} else if velocity.x > 0 {
-			let poses = layout.layoutAttributesForElements(in: CGRect(x: xTarget, y: 0, width: bounds.size.width, height: bounds.size.height)) ?? []
+			let y = poses.min(by: { abs($0.center.y - yCenter) < abs($1.center.y - yCenter) })?.frame.origin.y ?? 0
+			targetContentOffset.pointee.y = y
+		} else if velocity.y > 0 {
+			let poses = layout.layoutAttributesForElements(in: CGRect(x: yTarget, y: 0, width: bounds.size.width, height: bounds.size.height)) ?? []
 			// Find the leftmost column beyond the current position.
-			let xCurrent = scrollView.contentOffset.x
-			let x = poses.filter({ $0.frame.origin.x > xCurrent}).min(by: { $0.center.x < $1.center.x })?.frame.origin.x ?? xMax
-			targetContentOffset.pointee.x = min(x, xMax)
+			let yCurrent = scrollView.contentOffset.y
+			let y = poses.filter({ $0.frame.origin.y > yCurrent}).min(by: { $0.center.y < $1.center.y })?.frame.origin.y ?? yMax
+			targetContentOffset.pointee.y = min(y, yMax)
 		} else {
-			let poses = layout.layoutAttributesForElements(in: CGRect(x: xTarget - bounds.size.width, y: 0, width: bounds.size.width, height: bounds.size.height)) ?? []
+			let poses = layout.layoutAttributesForElements(in: CGRect(x: yTarget - bounds.size.height, y: 0, width: bounds.size.width, height: bounds.size.height)) ?? []
 			// Find the rightmost column.
-			let x = poses.max(by: { $0.center.x < $1.center.x })?.frame.origin.x ?? 0
-			targetContentOffset.pointee.x = max(x, 0)
+			let y = poses.max(by: { $0.center.y < $1.center.y })?.frame.origin.y ?? 0
+			targetContentOffset.pointee.y = max(y, 0)
 		}
 	}
 }
@@ -97,7 +88,11 @@ public var mainViewBackgroundColor: UIColor {
 }
 
 class ViewController: UIViewController {
-	/* -----start of buttons, collection views, etc----- */
+	
+	let data = [
+		Event("Illenium: Ascend Tour", venue: "Bill Graham Civic Auditorium", "01/01/20", "San Francisco", "CA", distance: -1, headerImage: UIImage(named: "illenium_header_image")!, profileImage: UIImage(named: "illenium_profile_image")!),
+		Event("Dabin: Into The Wild", venue: "The Regency Ballroom", "02/02/20", "San Francisco", "CA", distance: -1, headerImage: UIImage(named: "dabin_header_image")!, profileImage: UIImage(named: "dabin_profile_image")!),
+	]
 	
 	// creates collection view
 	fileprivate lazy var collectionView: UICollectionView = {
@@ -114,9 +109,6 @@ class ViewController: UIViewController {
 	@objc func eventButtonPressed(sender: UIButton!) {
 		print("event pressed")
 	}
-
-	/* -----end of buttons, collection views, etc----- */
-	/* -----start of functions that establish constraints----- */
 
 	// centers collection view and adds color
 	fileprivate func setUpCollectionView() {
@@ -137,7 +129,7 @@ class ViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+
 		self.collectionView.register(EventCell.self, forCellWithReuseIdentifier: "illeniumCell")
 		self.collectionView.register(EventCell.self, forCellWithReuseIdentifier: "dabinCell")
 		self.collectionView.register(EventCell.self, forCellWithReuseIdentifier: "slanderCell")
